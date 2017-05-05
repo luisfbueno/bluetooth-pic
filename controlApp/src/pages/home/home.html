@@ -1,15 +1,31 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Ionic Blank
+    <ion-title align="center">
+      Controle
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
+  <ion-list>
+    <ion-list-header>
+      Led's
+    </ion-list-header>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+    <ion-item>
+      <ion-label>Vermelho</ion-label>
+      <ion-toggle color="danger" checked="false"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Verde</ion-label>
+      <ion-toggle color="secondary" checked="false"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Amarelo</ion-label>
+      <ion-toggle color="energized" checked="false"></ion-toggle>
+    </ion-item>
+
+  </ion-list>
 </ion-content>
