@@ -14,17 +14,17 @@
 
     <ion-item>
       <ion-label>Vermelho</ion-label>
-      <ion-toggle color="danger" checked="false"></ion-toggle>
+      <ion-toggle [(ngModel)]="vermelho" color="danger" checked="false" (ionChange)="mudaVermelho()"></ion-toggle>
     </ion-item>
 
     <ion-item>
       <ion-label>Verde</ion-label>
-      <ion-toggle color="secondary" checked="false"></ion-toggle>
+      <ion-toggle [(ngModel)]="verde" color="secondary" checked="false" (ionChange)="mudaVerde()"></ion-toggle>
     </ion-item>
 
     <ion-item>
       <ion-label>Amarelo</ion-label>
-      <ion-toggle color="energized" checked="false"></ion-toggle>
+      <ion-toggle [(ngModel)]="amarelo" color="energized" checked="false" (ionChange)="mudaAmarelo()"></ion-toggle>
     </ion-item>
 
   </ion-list>
