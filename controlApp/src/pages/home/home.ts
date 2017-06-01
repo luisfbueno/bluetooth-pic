@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
 import { NavController } from 'ionic-angular';
-//import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { AlertController } from 'ionic-angular';
 
 @Component({
@@ -11,31 +11,44 @@ import { AlertController } from 'ionic-angular';
 export class HomePage{
   //Vermelho = 0.Verde = 1, Amarelo = 2
   private ledControl: number[];
+  private macAddress: string; //Mac Adress obtido após uma execução de list e acessando .address do vetor de objetos retornado
 
-  constructor(public navCtrl: NavController,public alertCtrl: AlertController/*,public bluetoothSerial: BluetoothSerial*/) {
-    this.ledControl = [0,0,0]; 
-    this.connect();
-  }
-
-  public connect(){
-    //this.bluetoothSerial.enable().then((status)=> {
-      //  this.showAlert();
-    //});
+  constructor(public navCtrl: NavController,public alertCtrl: AlertController,public bluetoothSerial: BluetoothSerial) {
+    this.ledControl = [0,0,0];
+    this.macAddress = "00:21:13:00:4F:0D"; 
+    this.bluetoothSerial.list().then((con)=>{
+      this.bluetoothSerial.connect(this.macAddress).subscribe();
+    });
   }
 
   public sendByte() {
+    //this.showConnectionStatus();
     var byte = new Uint8Array(1); //Cria estrutura de byte
     var aux = this.ledControl;
-    byte[0] = aux[0] * 1 + aux[1] * 2 + aux[2] * 4;
+    //byte[0] = aux[0] * 1 + aux[1] * 2 + aux[2] * 4;
+    byte[0] = 0x01;
     console.log(byte[0]);
-    console.log("Byte Lenght = ",byte.byteLength);
-
+    this.bluetoothSerial.write(byte).then((sucess)=>{
+      //this.showSuccess("Mandou mensagem");
+    },
+    (err)=>{
+      //this.showError("Não conseguiu mandar mensagem");
+    });
   }
 
-  public showAlert() {
+  public showError(msg:string) {
     let alert = this.alertCtrl.create({
-      title: 'Bluetooth',
-      subTitle: 'Bluetooth enabled',
+      title: 'Error',
+      subTitle: msg,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+  public showSuccess(msg:string) {
+    let alert = this.alertCtrl.create({
+      title: 'Success',
+      subTitle: msg,
       buttons: ['OK']
     });
     alert.present();
