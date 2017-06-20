@@ -24,12 +24,10 @@ export class HomePage{
   public sendByte() {
     //this.showConnectionStatus();
     var byte = new Uint8Array(1); //Cria estrutura de byte
-    var aux = this.ledControl;
-    //byte[0] = aux[0] * 1 + aux[1] * 2 + aux[2] * 4;
-    byte[0] = 0x01;
-    console.log(byte[0]);
+    byte[0] = this.ledControl[0] * 1 + this.ledControl[1] * 2 + this.ledControl[2] * 4;
+    //byte[0] = 0x01;
     this.bluetoothSerial.write(byte).then((sucess)=>{
-      //this.showSuccess("Mandou mensagem");
+      this.showSuccess("Mandou mensagem");
     },
     (err)=>{
       //this.showError("Não conseguiu mandar mensagem");
