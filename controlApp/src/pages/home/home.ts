@@ -16,21 +16,16 @@ export class HomePage{
   constructor(public navCtrl: NavController,public alertCtrl: AlertController,public bluetoothSerial: BluetoothSerial) {
     this.ledControl = [0,0,0];
     this.macAddress = "00:21:13:00:4F:0D"; 
-    this.bluetoothSerial.list().then((con)=>{
-      this.bluetoothSerial.connect(this.macAddress).subscribe();
-    });
+    this.bluetoothSerial.enable();
+    
   }
 
   public sendByte() {
-    //this.showConnectionStatus();
     var byte = new Uint8Array(1); //Cria estrutura de byte
-    byte[0] = this.ledControl[0] * 1 + this.ledControl[1] * 2 + this.ledControl[2] * 4;
-    //byte[0] = 0x01;
-    this.bluetoothSerial.write(byte).then((sucess)=>{
-      this.showSuccess("Mandou mensagem");
+    byte[0] = this.ledControl[0] * 1 + this.ledControl[1] * 2 + this.ledControl[2] * 4; //Converte valores do vetor para número decimal
+    this.bluetoothSerial.write(byte).then((sucess)=>{ //envia dado
     },
     (err)=>{
-      //this.showError("Não conseguiu mandar mensagem");
     });
   }
 
@@ -43,13 +38,10 @@ export class HomePage{
     alert.present();
   }
 
-  public showSuccess(msg:string) {
-    let alert = this.alertCtrl.create({
-      title: 'Success',
-      subTitle: msg,
-      buttons: ['OK']
+  public connectModule(){
+    this.bluetoothSerial.list().then((con)=>{
+      this.bluetoothSerial.connect(this.macAddress).subscribe();
     });
-    alert.present();
   }
 
   public mudaEstadoLed(arrayPos:number) {
@@ -60,7 +52,6 @@ export class HomePage{
     else{
       this.ledControl[arrayPos] = 0;
     }
-    //console.log(this.ledControl);
     this.sendByte();
   }
 
